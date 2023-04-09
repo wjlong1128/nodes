@@ -1,0 +1,6 @@
+https://www.modb.pro/db/175051
+https://blog.csdn.net/wdw66666/article/details/111657584
+
+spring事务其实就是根据事务注解生成代理类，然后在前置增强方法里获取connection，设置connection
+到threadlocal
+，开启事务。再执行原始方法，最后在后置增强方法中判断有无异常来进行事务回滚或提交，再释放连接。

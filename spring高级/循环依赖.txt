@@ -1,0 +1,42 @@
+// 这里的AOP是假定出现的 而且要保证创建的Bean都是单例的
+// [4] 判断是否进行AOP 是在某个过程中依靠一个Map()
+// 构造注入循环依赖无法解决
+// @Lazy标注的属性是先创建代理对象，在使用该实例时代理对象创建 可以保底解决
+0. createingSet<BeanName>
+1. 实例化Bean	singletonFactories.put(beanName,() -> getEarlyBeanReference(beanName, mbd, bean))
+2. 依赖注入
+	- felid在singletonObjects是否存在
+	   * 存在直接注入
+	   * 不存在判断createingSet是否创建中
+	   	  	= 判断出现了循环依赖
+	   	  	= 判断 earlySingletonObjects 中是否存在
+	   		= (存在AOP)*直接进行AOP并且跳过[4] 
+	   	  	= 存在get注入对象
+	   	  	= 不存在创建代理/普通对象 
+	   	  		~ 创建代理/普通对象 -->singletonFactories执行并移除Lambda获取代理/普通对象 
+	   	  	= earlySingletonObjects.put(beanName,proxyBean/bean)
+
+3. 填充其他(普通Bean 
+			~
+			可能在这一步 判断earlySingletonObjects中存在同beanName 
+			存在取出判断是否 bean引用地址相等
+			~)
+
+4. (存在AOP)*AOP
+	- 创建代理对象
+	- proxy.target = bean   
+5. 放入单例池
+	- singletonObjects.put(beanName,Bean) 
+	- singletonObjects.put(beanName,earlySingletonObjects.getAndRemove(beanName))
+6. createingSet.remove(beanName)
+
+DefaultSingletonBeanRegistry的属性
+
+	private final Map<String, Object> singletonObjects = new ConcurrentHashMap<>(256);
+
+	private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<>(16);
+
+	private final Map<String, Object> earlySingletonObjects = new ConcurrentHashMap<>(16);
+	- singletonObjects           |单例对象的缓存：bean 名称到 bean 实例。
+	- earlySingletonObjects		 |早期单例对象的缓存：bean 名称到 bean 实例。
+	- singletonFactories		 |单例工厂的缓存：对象工厂的 bean 名称。

@@ -1,0 +1,10 @@
+# 内部类与主类要用 $ 连接(Key)
+com.wjl.spring.X41_AutoConfiguration.core.X41_1CoreImportSelector$MyImportSelector=\
+com.wjl.spring.X41_AutoConfiguration.core.X41_1CoreImportSelector.AutoConfiguration1,\
+com.wjl.spring.X41_AutoConfiguration.core.X41_1CoreImportSelector.AutoConfiguration2
+
+# com.wjl.spring.X41_AutoConfiguration.customize.Main$MyImportSelector=\
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.wjl.spring.X41_AutoConfiguration.customize.Main.AutoConfiguration1,\
+com.wjl.spring.X41_AutoConfiguration.customize.Main.AutoConfiguration2
+

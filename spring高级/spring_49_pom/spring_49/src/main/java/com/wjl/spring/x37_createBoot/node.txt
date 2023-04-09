@@ -1,0 +1,8 @@
+1.
+	curl https://start.spring.io/pom.xml
+	curl https://start.spring.io/pom.xml -d dependencies=mybatis,web,lombok
+	# 下载
+	curl https://start.spring.io/pom.xml -d dependencies=mybatis,web,lombok -o pom.xml
+	idea64 pom.xml
+	# 详细
+	curl https://start.spring.io

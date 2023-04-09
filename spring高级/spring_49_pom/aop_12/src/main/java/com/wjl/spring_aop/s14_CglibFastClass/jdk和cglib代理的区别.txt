@@ -1,0 +1,10 @@
+1. JDK
+	1. jdk代理会为每个方法反射创建代理
+	2. 在调用17次时创建一个代理对象作为优化的方式
+	3. 基于接口，目标对象
+
+2. CGLIB
+	1. 上来就会创建两个'FastClass'(TargetFastClass,ProxyFastClass) 优化
+	2. 一个配合代理目标调用[methodProxy.invoke(target,args)]，一个配合代理本身调用[methodProxy.invokeSuper(proxyObject,args)]
+	3. 一个'代理类'对应两个FastClass,每个FastClass可以匹配到多个方法
+	4. 可以避免反射，基于父类、目标对象、代理对象

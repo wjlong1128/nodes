@@ -1,0 +1,20 @@
+1. Aware接口用于注入一些容器相关信息 比如
+	a. BeanNameAware #注入BeanName
+	b. BeanFactoryAeare  # 注入BeanFactory容器
+	c. ApplicationContextAware # 注入ApplicationContext容器
+	d. EmbeddedValueResolverAware # ${} 
+
+2. 用@Autowried就能实现，为什么需要Aware？
+	a. @Autowried的解析需要Bean后处理器，属于扩展功能
+	b. Aware接口属于内置功能，Spring就能识别
+	
+#	某些情况下扩展功能会失效，而内置功能不会失效
+
+refresh: 找到BeanFactory后置处理器执行 -> 添加Bean后置处理器 
+		  -> 执行Bean后置处理器 初始化单例[回调BeanPostProcess的方法【依赖注入 init方法等】]
+失效情况查看图片
+
+3. 学到了什么？
+	a. Aware接口提供了一种内置的[注入]手段 可以注入BeanFactory ApplicationContext 
+	b. InitializingBean 提供了一种内置的[初始化]手段
+	c. 这两个接口执行不受扩展功能影响

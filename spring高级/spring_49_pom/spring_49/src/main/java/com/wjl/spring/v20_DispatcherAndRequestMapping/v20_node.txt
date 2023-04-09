@@ -1,0 +1,13 @@
+ /*
+学到了什么
+    a. DispatcherServlet 是在第一次被访问时执行初始化, 也可以通过配置修改为 Tomcat 启动后就初始化
+    b. 在初始化时会从 Spring 容器中找一些 Web 需要的组件, 如 HandlerMapping、HandlerAdapter 等
+
+本章介绍两个最为重要的组件
+    a. RequestMappingHandlerAdapter, 以 @RequestMapping 作为映射路径
+    b. RequestMappingHandlerAdapter, 调用 handler
+    c. 控制器的具体方法会被当作 handler
+        - handler 的参数和返回值多种多样
+        - 需要解析方法参数, 由 HandlerMethodArgumentResolver 来做
+        - 需要处理方法返回值, 由 HandlerMethodReturnValueHandler 来做
+*/

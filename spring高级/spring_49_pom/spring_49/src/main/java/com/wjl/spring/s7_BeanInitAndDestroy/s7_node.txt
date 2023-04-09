@@ -1,0 +1,4 @@
+1. 初始化各个方法执行顺序 [销毁顺序一样]
+	a. @PostConstruct
+	b. InitializingBean
+	c. @Bean(initMethod="init")

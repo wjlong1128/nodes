@@ -1,0 +1,10 @@
+1. A02_1BeanFactoryMain => BeanFactory 实现 DefaultListableBeanFactory
+	
+	a. BeanFactory 不会做的事
+		1. 不会主动调用BeanFactory后处理器
+		2. 不会主动调用BeanF后处理器
+		3. 不会主动初始化单例
+		4. 不会解析BeanFactory与'#{ }'、'${ }'
+	b. BeanFactory后处理器会有排序的逻辑
+
+2. A02_2ApplicationContextMain => ApplicationContext接口实现
