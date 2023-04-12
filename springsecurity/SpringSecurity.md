@@ -5174,3 +5174,54 @@ curl -H "Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2N
 ```
 
 ![image-20220812160042315](SpringSecurity.assets/image-20220812160042315.png)
+
+
+
+
+
+
+
+oauth
+
+```java
+@Controller
+public class TestController {
+
+    @GetMapping("hello")
+    public String hello(){
+        return "redirect:https://gitee.com/oauth/authorize?client_id=0a68fee4ea5979d66a3eeffc7522799ce0a5e4949d8e505d878a5f95f2dd1d16&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fsuccess&response_type=code";
+    }
+
+    //@ResponseBody
+    @GetMapping("success")
+    public String success(String code, RedirectAttributes redirectAttributes) throws Exception {
+        System.out.println("code===>"+code);
+        String body = "grant_type=authorization_code&code="+code+"&client_id=0a68fee4ea5979d66a3eeffc7522799ce0a5e4949d8e505d878a5f95f2dd1d16&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fsuccess&client_secret=c6ee48383fe432be59088b3a5ebfb8144dd36eb97961945ecefe73e1374b1ff2";
+        String post = HttpClientUtils.post("https://gitee.com/oauth/token", body, MediaType.APPLICATION_FORM_URLENCODED_VALUE.toString(), "utf-8", 30000, 30000);
+        HashMap<String,Object> hashMap = new ObjectMapper().readValue(post, HashMap.class);
+
+        Object accessToken = hashMap.get("access_token");
+        String response = HttpClientUtils.get("https://gitee.com/api/v5/user?access_token=" + accessToken);
+        System.out.println("accessToken===>"+accessToken);
+        Map<String,Object> map = new ObjectMapper().readValue(response, Map.class);
+        System.out.println(map);
+        //redirectAttributes.addAttribute("info",map);
+        return "redirect:/index";
+    }
+
+    @ResponseBody
+    @GetMapping("index")
+    public String index(HttpServletRequest request){
+        Object info = request.getAttribute("info");
+        return "index "+ JSON.toJSONString(info);
+    }
+    //@GetMapping("bye")
+    //public String bye(){
+    //    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    //    System.out.println(principal.getClass());
+    //    System.out.println((DefaultOAuth2User)principal);
+    //    return "bye ";
+    //}
+}
+```
+
